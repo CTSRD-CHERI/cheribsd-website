@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>CheriBSD 23.11 Release Notes</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/assets/dist/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body>
+    <main role="main">
+      <section class="jumbotron text-left rounded-0 m-0">
+  <div class="container">
+<h1>CheriBSD 23.11 Release Notes</h1>
+<h2>Overview</h2>
+<p>
+Welcome to the Fall 2023 release of the CheriBSD operating system.  As well as a general update of the baseline FreeBSD OS (roughly corresponding to FreeBSD 14.0-RELEASE) from which CheriBSD is derived, we have introduced several new research components which will be of interest to the CHERI and CheriBSD community:
+</p>
+<ul>
+<li>Support for user level heap temporal memory safety has now been merged and enabled by default. User level allocations via malloc() are now quarantined on free() until all outstanding pointers to the allocation have been revoked, preventing exploitation of use-after-reallocation vulnerabilities. As with all the new features, readers should see the Getting Started Guide for configuration and usage information. The implementation extends the techniques in our paper <em>Cornucopia: Temporal Safety for CHERI Heaps</em> and will be documented in the forthcoming paper <em>Cornucopia Reloaded: Load Barriers for CHERI Heap Temporal Safety</em>. 
+<li>A port of FreeBSD’s bhyve hypervisor to AArch64 and Morello makes it possible to virtualize CheriBSD, FreeBSD, and Linux for AArch64. The port includes early support for a GDB stub and we aim to provide a more streamlined management framework via the package updates system in the near future.
+<li>An updated research prototype of Library Compartmentalization (<a href="https://man.cheribsd.org/cgi-bin/man.cgi/release-23.11/c18n">https://man.cheribsd.org/cgi-bin/man.cgi/release-23.11/c18n</a>), which implements an alternative run-time linker running shared objects in libraries. This implementation is very much a work-in-progress, and is provided to enable research at other collaborator institutions needing easy access to the prototype. It is neither complete nor intended to be secure.
+<li>The number of pure-capability (CheriABI) packages has passed ten-thousand.
+<li>A new pure-capability benchmark ABI has been added alongside the existing hybrid and pure-capability (CheriABI) ABIs. This ABI uses a modified form of code generation which improves performance on the Arm Morello board, required due to limitations with bounds prediction in the current Morello prototype. The performance of the benchmark ABI is more predictive of potential future CHERI microarchitectural performance than the Morello prototype running software compiled for CheriABI, making it preferable for benchmarking. However, this comes at the cost of reduced security, and so software compiled for the benchmark ABI should not be used for security evaluation. For details on how to use the benchmark ABI, and benchmark Morello in general, readers should see the Getting Started Guide.
+<li>To strengthen library compartmentalization, we are adjusting the ABI for functions whose arguments do not fit in registers in a two step process. These arguments are now reachable via a bounded capability passed in register C9, but are stored on the stack in the same place as before, allowing existing callees to find them. New callees ignore C9 and access these arguments directly. In the next release, newly compiled callees will access them via C9 allowing callers to place argument values anywhere they desire. Users can continue to use code compiled for prior ABI versions for the life of the 23.11 release, but should endeavor to recompile all code to the new ABI prior to the next CheriBSD release, expected in 2024, when libraries will expect arguments via C9.
+</li>
+</ul>
+<p>
+While CheriBSD is, by definition, an experimental research operating system, with the exception of the benchmark ABI, the above features are not yet considered to be mature. 
+</p>
+<p>
+As with previous releases, the default CheriBSD kernel on Morello ships with debugging features enabled, which should be disabled by booting a non-debug kernel before any performance benchmarking is performed.
+</p>
+<h2>Known Issues</h2>
+<ul>
+<li>ZFS support is lightly tested. The on-disk format is believed to be stable, but it is not impossible that future releases will be unable to read pools created by this release, particularly pools created on pure-capability kernels.
+</li>
+</ul>
+<h2>Using Morello as a Desktop</h2>
+<p>
+New installations of the latest CheriBSD release have an option to enable the desktop packages during the install process.
+</p>
+<p>
+If you have already installed the latest version of CheriBSD but did not install the desktop packages you can add them later; log in as root or use sudo to add the following packages to the system:
+</p>
+<p>
+pkg64c install cheri-desktop (provides DRM, Wayland and the general GUI system)
+</p>
+<p>
+pkg64 install cheri-desktop-hybrid-extras (provides Firefox and other applications)
+</p>
+<p>
+Make sure that your user ID is in the video group; if not, use:
+</p>
+<p>
+pw groupmod video -m username
+</p>
+<p>
+Add the following lines to /boot/loader.conf:
+</p>
+<p>
+dtb_load="YES"
+</p>
+<p>
+dtb_type="dtb"
+</p>
+<p>
+dtb_name="/boot/dtb/arm/morello-soc.dtb"
+</p>
+<p>
+Ensure that a USB keyboard and mouse, as well as an HDMI monitor capable of handling full-HD input (all modern monitors), are connected to the desktop.
+</p>
+<p>
+Reboot your system and you will be presented with a graphical login screen.
+</p>
+</div>
+</section>
+</main>
+</body>
+</html>
