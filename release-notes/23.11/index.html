@@ -40,6 +40,15 @@ As with previous releases, the default CheriBSD kernel on Morello ships with deb
 </p>
 <h2>Known Issues</h2>
 <ul>
+<li>The version of OpenSSH shipped with CheriBSD 23.11 lacks mitigations for the <a href="https://terrapin-attack.com">Terrapin Attack</a>.  This can be mitigated by running the following commands as root:
+<pre>
+<code>printf "\n#Work around CVE-2023-48795\nCiphers -chacha20-poly1305@openssh.com\nMACs -*etm@openssh.com\n" >> /etc/ssh/sshd_config</code>
+<code>printf "\n#Work around CVE-2023-48795\nCiphers -chacha20-poly1305@openssh.com\nMACs -*etm@openssh.com\n" >> /etc/ssh/ssh_config</code>
+<code>service sshd restart</code>
+</pre>
+The FreeBSD security advisory for this issue is
+<a href="https://www.freebsd.org/security/advisories/FreeBSD-SA-23:19.openssh.asc">FreeBSD-SA-23:19.openssh.asc</a>.
+</li>
 <li>ZFS support is lightly tested. The on-disk format is believed to be stable, but it is not impossible that future releases will be unable to read pools created by this release, particularly pools created on pure-capability kernels.
 </li>
 </ul>
