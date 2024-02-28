@@ -6,12 +6,12 @@
     <title>CheriBSD</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="/assets/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./assets/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
+    <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
+    <link rel="manifest" href="./site.webmanifest">
     <meta name="msapplication-TileColor" content="#b91d47">
   </head>
   <body>
@@ -36,7 +36,7 @@
       <div class="navbar navbar-dark bg-dark shadow-sm">
         <div class="container d-flex justify-content-between">
           <a href="#" class="navbar-brand d-flex align-items-center">
-            <img src="/CHERI.svg" width="30" height="30" class="mr-1">
+            <img src="./CHERI.svg" width="30" height="30" class="mr-1">
             <strong>CheriBSD</strong>
           </a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
@@ -74,8 +74,18 @@
                 <div class="col-md-6 col-lg-12">
                   <div class="row">
                     <div class="col">
-                      <a href="https://ctsrd-cheri.github.io/cheribsd-getting-started/cover/index.html"
-                        class="btn btn-primary w-100 mb-3">Get Started on Morello</a>
+                      <div class="btn-group mb-3 w-100">
+                        <a href="getting-started/23.11/"
+                          class="btn btn-primary w-100">Get Started on Morello</a>
+                        <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-expanded="false">
+                          <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                          <h6 class="dropdown-header">Current Version</h6>
+                          <a href="getting-started/23.11/"
+                             class="dropdown-item">23.11</a>
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <div class="row">
@@ -104,22 +114,38 @@
                   <div class="row">
                     <div class="col">
                       <div class="btn-group mb-3 w-100">
-                        <a href="/release-notes/23.11/index.html"
+                        <a href="./release-notes/23.11/index.html"
                            class="btn btn-outline-primary w-100">View Release Notes</a>
                         <button type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-expanded="false">
                           <span class="sr-only">Toggle Dropdown</span>
                         </button>
                         <div class="dropdown-menu dropdown-menu-right">
                           <h6 class="dropdown-header">Current Version</h6>
-                          <a href="/release-notes/23.11/index.html"
+                          <a href="./release-notes/23.11/index.html"
                              class="dropdown-item">23.11</a>
                           <h6 class="dropdown-header">Old Versions</h6>
-                          <a href="/release-notes/22.12/index.html"
+                          <a href="./release-notes/22.12/index.html"
                              class="dropdown-item">22.12</a>
-                          <a href="/release-notes/22.05p1/index.html"
+                          <a href="./release-notes/22.05p1/index.html"
                              class="dropdown-item">22.05p1</a>
-                          <a href="/release-notes/22.05/index.html"
+                          <a href="./release-notes/22.05/index.html"
                              class="dropdown-item">22.05</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                      <div class="btn-group mb-3 w-100">
+                        <a href="./tutorial/23.11/"
+                           class="btn btn-outline-primary w-100">View Tutorial</a>
+                        <button type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-expanded="false">
+                          <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                          <h6 class="dropdown-header">Current Version</h6>
+                          <a href="./tutorial/23.11/"
+                             class="dropdown-item">23.11</a>
                         </div>
                       </div>
                     </div>
@@ -181,5 +207,5 @@
     </footer>
   </body>
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-  <script>window.jQuery || document.write('<script src="assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="assets/dist/js/bootstrap.bundle.min.js"></script>
+  <script>window.jQuery || document.write('<script src="./assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="./assets/dist/js/bootstrap.bundle.min.js"></script>
 </html>
