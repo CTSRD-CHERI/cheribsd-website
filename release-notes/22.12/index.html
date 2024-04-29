@@ -135,24 +135,24 @@
           the desktop packages you can add them later; log in as root or use sudo to add
           the following packages to the system:
           </p>
-          <pre>
+<pre>
 <code>pkg64c install cheri-desktop</code> <b>(provides DRM, Wayland and the general GUI system)</b>
 <code>pkg64 install cheri-desktop-hybrid-extras</code> <b>(provides Firefox and other applications)</b>
-          </pre>
+</pre>
           <p>
           Make sure that your user ID is in the video group; if not, use:
           </p>
-          <pre>
+<pre>
 <code>pw groupmod video -m username</code>
-          </pre>
+</pre>
           <p>
           Add the following lines to /boot/loader.conf:
           </p>
-          <pre>
+<pre>
 <code>dtb_load="YES"</code>
 <code>dtb_type="dtb"</code>
 <code>dtb_name="/boot/dtb/arm/morello-soc.dtb"</code>
-          </pre>
+</pre>
           <p>
           Ensure that a USB keyboard (without an internal hub, see Known Issues) and
           mouse, as well as an HDMI monitor capable of handling full-HD input (all modern
