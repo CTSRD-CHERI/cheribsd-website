@@ -8,13 +8,47 @@
     <!-- Bootstrap core CSS -->
     <link href="/assets/dist/css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- Bootstrap Icons CSS -->
+    <link href="/assets/dist/css/bootstrap-icons.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="/assets/dist/css/custom.css" rel="stylesheet">
+
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
     <meta name="msapplication-TileColor" content="#b91d47">
   </head>
+
   <body>
+    <header>
+      <div class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
+        <div class="container">
+          <a href="#" class="navbar-brand d-flex align-items-center">
+            <img src="/CHERI.svg" width="30" height="30" class="mr-1" alt="">
+            <strong>CheriBSD</strong>
+          </a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="nav navbar-nav ml-md-auto">
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+                  Contact
+                </a>
+                <div class="dropdown-menu dropdown-menu-right">
+                  <a class="dropdown-item" href="https://lists.cam.ac.uk/sympa/info/cl-cheribsd-announce"><i class="bi bi-megaphone mr-2"></i>Sign Up for Email Updates</a>
+                  <a class="dropdown-item" href="https://lists.cam.ac.uk/sympa/info/cl-cheribsd-discuss"><i class="bi bi-chat-right-text mr-2"></i>Join Our Email Discussion List</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </header>
+
     <main>
       <section class="jumbotron text-left rounded-0 m-0">
         <div class="container">
@@ -72,5 +106,21 @@
         </div>
       </section>
     </main>
+
+    <footer>
+      <div class="bg-dark text-white-50 small py-4 jumbotron rounded-0 m-0">
+        <div class="container">
+          <p>
+            CheriBSD/Morello is a Digital Security by Design (DSbD) technology. This work was supported in part by the UK Industrial Strategy Challenge Fund (ICSCF) and Innovate UK project Digital Security by Design (DSbD) Technology Platform Prototype, 105694.
+          </p>
+          <p class="mb-0">
+            Approved for public release; distribution is unlimited.  Supported  by the Defense Advanced Research Projects Agency (DARPA) and the Air Force Research Laboratory (AFRL), under contract FA8750-10-C-0237 ("CTSRD"), with additional support from FA8750-11-C-0249 ("MRC2"), HR0011-18-C-0016 ("ECATS"), FA8650-18-C-7809 ("CIFV"), and FA8750-24-C-B047 ("DEC") as part of the DARPA CRASH, MRC, SSITH, and CPM research programs.  The views, opinions, and/or findings contained in this report are those of the authors and should not be interpreted as representing the official views or policies, either expressed or implied, of the Department of Defense or the U.S. Government.  Additional support was received from St John's College Cambridge, the Google SOAAP Focused Research Award, a Google Chrome University Research Program Award, the RCUK's Horizon Digital Economy Research Hub Grant (EP/G065802/1), the EPSRC REMS Programme Grant (EP/K008528/1), the EPSRC Impact Acceleration Account (EP/K503757/1), the EPSRC IOSEC grant (EP/EP/R012458/1), the ERC Advanced Grant ELVER (789108), the Isaac Newton Trust, the UK Higher Education Innovation Fund (HEIF), Thales E-Security, Microsoft Research Cambridge, Arm Limited, Google DeepMind, HP Enterprise, and a Gates Cambridge Scholarship.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="assets/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>
