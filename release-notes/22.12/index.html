@@ -17,104 +17,118 @@
   <body>
     <main>
       <section class="jumbotron text-left rounded-0 m-0">
-  <div class="container">
-<h1>CheriBSD 22.12 Release Notes</h1>
-<h2>Overview</h2>
-<p>
-Welcome to the Fall 2022 (22.12) release of the CheriBSD operating system.  As well as a
-general update of the baseline FreeBSD OS from which CheriBSD is derived, we
-have introduced several new research components which will be of interest to the
-CHERI and CheriBSD community:
-</p>
-<ul>
-<li>Memory-safe adaptation of Direct Rendering Manager (DRM) and Panfrost device
-driver, which enable a Morello-based desktop system using on-board GPU and HDMI.
-These drivers may be used with hybrid or pure-capability kernels.</li>
-<li>An initial set of graphics and desktop CheriABI software packages such as
-Wayland and portions of KDE to get you up and running with a memory-safe desktop
-environment. These components remain under active development, and we anticipate
-continuing package updates after the CheriBSD release.</li>
-<li>An early research prototype of Library Compartmentalization
-(https://github.com/CTSRD-CHERI/cheripedia/wiki/Library-based-Compartmentalisation),
-which implements an alternative run-time linker running shared objects in
-libraries. This implementation is very much a work-in-progress, and is provided
-to enable research at other collaborator institutions needing easy access to the
-prototype. It is neither complete nor intended to be secure.</li>
-<li>Improved pluggability of experimental heap temporal memory-safety support,
-which is not yet merged into the main development branch, but will now be easier
-to use by downloading an alternative kernel and heap allocator libraries
-provided by Microsoft.</li>
-<li>Support for a newer version of GDB in CheriBSD, which provides generally
-improved debugging support including Morello code disassembly and hardware
-watchpoints. We have also added support for memory tag access from the debugger
-on live targets as well as core dumps.</li>
-<li>Alpha support for ZFS file systems including support for boot environments.
-</li>
-</ul>
-<p>
-While CheriBSD is by definition an experimental research operating system, the
-above features – other than GDB improvements – are not yet considered to be
-mature. They are being made available as an early release to facilitate
-collaboration, but will not be suitable for a general Morello audience until the
-following release.
-</p>
-<p>
-As with previous releases, the default CheriBSD kernel on Morello ships with
-debugging features enabled, which should be disabled by booting a non-debug
-kernel before any performance benchmarking is performed.
-</p>
-<h2>Known Issues</h2>
-<ul>
-<li>If a USB hub is plugged in (including embedded hubs in USB keyboards) the
-system will pause on boot due to a firmware bug. Some people find they can
-bypass this pause by pressing Enter on a USB keyboard attached to the Morello
-desktop system. Others find they must unplug the hub to boot.</li>
-<li>ZFS support is lightly tested and only known to work with hybrid kernels
-(the default). While pure-capability kernels can create ZFS filesystems, they
-hang if a ZFS file system is used at the root file system. The on-disk format is
-believed to be stable, but it is not impossible that future releases will be
-unable to read pools created by this release, particularly pools created on
-pure-capability kernels.</li>
-</ul>
-<h2>Using Morello as a Desktop</h2>
-<p>
-New installations of the latest CheriBSD release have an option to enable the
-desktop packages during the install process.
-</p>
-<p>
-If you have already installed the latest version of CheriBSD but did not install
-the desktop packages you can add them later; log in as root or use sudo to add
-the following packages to the system:
-</p>
-<pre>
+        <div class="container">
+          <h1>CheriBSD 22.12 Release Notes</h1>
+          <h2>Overview</h2>
+          <p>
+          Welcome to the Fall 2022 (22.12) release of the CheriBSD operating system.  As well as a
+          general update of the baseline FreeBSD OS from which CheriBSD is derived, we
+          have introduced several new research components which will be of interest to the
+          CHERI and CheriBSD community:
+          </p>
+          <ul>
+            <li>
+              Memory-safe adaptation of Direct Rendering Manager (DRM) and Panfrost device
+              driver, which enable a Morello-based desktop system using on-board GPU and HDMI.
+              These drivers may be used with hybrid or pure-capability kernels.
+            </li>
+            <li>
+              An initial set of graphics and desktop CheriABI software packages such as
+              Wayland and portions of KDE to get you up and running with a memory-safe desktop
+              environment. These components remain under active development, and we anticipate
+              continuing package updates after the CheriBSD release.
+            </li>
+            <li>
+              An early research prototype of Library Compartmentalization
+              (https://github.com/CTSRD-CHERI/cheripedia/wiki/Library-based-Compartmentalisation),
+              which implements an alternative run-time linker running shared objects in
+              libraries. This implementation is very much a work-in-progress, and is provided
+              to enable research at other collaborator institutions needing easy access to the
+              prototype. It is neither complete nor intended to be secure.
+            </li>
+            <li>
+              Improved pluggability of experimental heap temporal memory-safety support,
+              which is not yet merged into the main development branch, but will now be easier
+              to use by downloading an alternative kernel and heap allocator libraries
+              provided by Microsoft.
+            </li>
+            <li>
+              Support for a newer version of GDB in CheriBSD, which provides generally
+              improved debugging support including Morello code disassembly and hardware
+              watchpoints. We have also added support for memory tag access from the debugger
+              on live targets as well as core dumps.
+            </li>
+            <li>
+              Alpha support for ZFS file systems including support for boot environments.
+            </li>
+          </ul>
+          <p>
+          While CheriBSD is by definition an experimental research operating system, the
+          above features – other than GDB improvements – are not yet considered to be
+          mature. They are being made available as an early release to facilitate
+          collaboration, but will not be suitable for a general Morello audience until the
+          following release.
+          </p>
+          <p>
+          As with previous releases, the default CheriBSD kernel on Morello ships with
+          debugging features enabled, which should be disabled by booting a non-debug
+          kernel before any performance benchmarking is performed.
+          </p>
+          <h2>Known Issues</h2>
+          <ul>
+            <li>
+              If a USB hub is plugged in (including embedded hubs in USB keyboards) the
+              system will pause on boot due to a firmware bug. Some people find they can
+              bypass this pause by pressing Enter on a USB keyboard attached to the Morello
+              desktop system. Others find they must unplug the hub to boot.
+            </li>
+            <li>
+              ZFS support is lightly tested and only known to work with hybrid kernels
+              (the default). While pure-capability kernels can create ZFS filesystems, they
+              hang if a ZFS file system is used at the root file system. The on-disk format is
+              believed to be stable, but it is not impossible that future releases will be
+              unable to read pools created by this release, particularly pools created on
+              pure-capability kernels.
+            </li>
+          </ul>
+          <h2>Using Morello as a Desktop</h2>
+          <p>
+          New installations of the latest CheriBSD release have an option to enable the
+          desktop packages during the install process.
+          </p>
+          <p>
+          If you have already installed the latest version of CheriBSD but did not install
+          the desktop packages you can add them later; log in as root or use sudo to add
+          the following packages to the system:
+          </p>
+          <pre>
 <code>pkg64c install cheri-desktop</code> <b>(provides DRM, Wayland and the general GUI system)</b>
 <code>pkg64 install cheri-desktop-hybrid-extras</code> <b>(provides Firefox and other applications)</b>
-</pre>
-<p>
-Make sure that your user ID is in the video group; if not, use:
-</p>
-<pre>
+          </pre>
+          <p>
+          Make sure that your user ID is in the video group; if not, use:
+          </p>
+          <pre>
 <code>pw groupmod video -m username</code>
-</pre>
-<p>
-Add the following lines to /boot/loader.conf:
-</p>
-<pre>
+          </pre>
+          <p>
+          Add the following lines to /boot/loader.conf:
+          </p>
+          <pre>
 <code>dtb_load="YES"</code>
 <code>dtb_type="dtb"</code>
 <code>dtb_name="/boot/dtb/arm/morello-soc.dtb"</code>
-</pre>
-<p>
-Ensure that a USB keyboard (without an internal hub, see Known Issues) and
-mouse, as well as an HDMI monitor capable of handling full-HD input (all modern
-monitors), are connected to the desktop.
-</p>
-<p>
-Reboot your system and you will be presented with a graphical login screen.
-</p>
-</div>
-</section>
-</main>
-</body>
+          </pre>
+          <p>
+          Ensure that a USB keyboard (without an internal hub, see Known Issues) and
+          mouse, as well as an HDMI monitor capable of handling full-HD input (all modern
+          monitors), are connected to the desktop.
+          </p>
+          <p>
+          Reboot your system and you will be presented with a graphical login screen.
+          </p>
+        </div>
+      </section>
+    </main>
+  </body>
 </html>
-
