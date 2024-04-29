@@ -1,0 +1,5 @@
+.text-decoration-underline-dotted:not(a), a.text-decoration-underline-dotted:not(:hover) {
+  text-decoration: underline;
+  -webkit-text-decoration: underline dotted;
+  text-decoration-style: dotted;
+}
