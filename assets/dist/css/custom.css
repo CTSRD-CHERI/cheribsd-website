@@ -3,3 +3,8 @@
   -webkit-text-decoration: underline dotted;
   text-decoration-style: dotted;
 }
+
+.jumbotron {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
