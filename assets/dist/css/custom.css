@@ -1,10 +1,20 @@
+@media (min-width: 1400px) {
+  .mw-xl {
+    max-width: 1140px;
+  }
+}
+
+.btn-outline-info {
+  --bs-btn-hover-color: #fff;
+  --bs-btn-active-color: #fff;
+}
+
 .text-decoration-underline-dotted:not(a), a.text-decoration-underline-dotted:not(:hover) {
   text-decoration: underline;
   -webkit-text-decoration: underline dotted;
   text-decoration-style: dotted;
 }
 
-.jumbotron {
-  padding-top: 2rem;
-  padding-bottom: 2rem;
+.smaller {
+  font-size: 0.8rem;
 }

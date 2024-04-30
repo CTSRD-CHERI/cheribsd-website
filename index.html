@@ -6,13 +6,13 @@
     <title>CheriBSD</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="/assets/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/dist/css/bootstrap.min.css?1714502473" rel="stylesheet">
 
     <!-- Bootstrap Icons CSS -->
     <link href="/assets/dist/css/bootstrap-icons.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="/assets/dist/css/custom.css?1714495221" rel="stylesheet">
+    <link href="/assets/dist/css/custom.css?1714502473" rel="stylesheet">
 
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -26,22 +26,22 @@
       <div class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
         <div class="container">
           <a href="#" class="navbar-brand d-flex align-items-center">
-            <img src="/CHERI.svg" width="30" height="30" class="mr-1" alt="">
+            <img src="/CHERI.svg" width="30" height="30" class="me-1" alt="">
             <strong>CheriBSD</strong>
           </a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="nav navbar-nav ml-md-auto">
+            <ul class="nav navbar-nav ms-md-auto">
               <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+                <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Contact
                 </a>
-                <div class="dropdown-menu dropdown-menu-right">
-                  <a class="dropdown-item" href="https://www.cl.cam.ac.uk/research/security/ctsrd/cheri/cheri-slack.html"><i class="bi bi-slack mr-2"></i>Talk to Us on Slack</a>
-                  <a class="dropdown-item" href="https://lists.cam.ac.uk/sympa/info/cl-cheribsd-announce"><i class="bi bi-megaphone mr-2"></i>Sign Up for Email Updates</a>
-                  <a class="dropdown-item" href="https://lists.cam.ac.uk/sympa/info/cl-cheribsd-discuss"><i class="bi bi-chat-right-text mr-2"></i>Join Our Email Discussion List</a>
+                <div class="dropdown-menu dropdown-menu-end">
+                  <a class="dropdown-item" href="https://www.cl.cam.ac.uk/research/security/ctsrd/cheri/cheri-slack.html"><i class="bi bi-slack me-2"></i>Talk to Us on Slack</a>
+                  <a class="dropdown-item" href="https://lists.cam.ac.uk/sympa/info/cl-cheribsd-announce"><i class="bi bi-megaphone me-2"></i>Sign Up for Email Updates</a>
+                  <a class="dropdown-item" href="https://lists.cam.ac.uk/sympa/info/cl-cheribsd-discuss"><i class="bi bi-chat-right-text me-2"></i>Join Our Email Discussion List</a>
                 </div>
               </li>
             </ul>
@@ -51,8 +51,8 @@
     </header>
 
     <main>
-      <section class="jumbotron text-center rounded-0 m-0">
-        <div class="container">
+      <section class="py-4 text-center bg-light">
+        <div class="container mw-xl">
           <h1 class="display-4">CheriBSD</h1>
           <p class="lead text-muted">
           CheriBSD is a Capability Enabled, Unix-like Operating System that extends FreeBSD to take advantage of Capability Hardware on Arm’s Morello and CHERI-RISC-V platforms.
@@ -62,7 +62,7 @@
             <div class="col-lg-8 col-xl-9">
               <img src="cheri-desktop.png" class="shadow w-100 mb-3" alt="CheriBSD with desktop environment running on Morello">
             </div>
-            <div class="col-lg-4 col-xl-3 text-muted text-left">
+            <div class="col-lg-4 col-xl-3 text-muted text-start">
               <div class="row">
                 <div class="col">
                   <h5>CheriBSD 23.11</h5>
@@ -82,10 +82,10 @@
                       <div class="btn-group mb-3 w-100">
                         <a href="https://download.cheribsd.org/releases/arm64/aarch64c/23.11/cheribsd-memstick-arm64-aarch64c-23.11.img.xz"
                            class="btn btn-outline-primary w-100">Download Morello Installer</a>
-                        <button type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-expanded="false">
-                          <span class="sr-only">Toggle Dropdown</span>
+                        <button type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                          <span class="visually-hidden">Toggle Dropdown</span>
                         </button>
-                        <div class="dropdown-menu dropdown-menu-right">
+                        <div class="dropdown-menu dropdown-menu-end">
                           <h6 class="dropdown-header">Current Version</h6>
                           <a href="https://download.cheribsd.org/releases/arm64/aarch64c/23.11/cheribsd-memstick-arm64-aarch64c-23.11.img.xz"
                              class="dropdown-item">23.11</a>
@@ -105,10 +105,10 @@
                       <div class="btn-group mb-3 w-100">
                         <a href="/release-notes/23.11/index.html"
                            class="btn btn-outline-primary w-100">View Release Notes</a>
-                        <button type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-expanded="false">
-                          <span class="sr-only">Toggle Dropdown</span>
+                        <button type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                          <span class="visually-hidden">Toggle Dropdown</span>
                         </button>
-                        <div class="dropdown-menu dropdown-menu-right">
+                        <div class="dropdown-menu dropdown-menu-end">
                           <h6 class="dropdown-header">Current Version</h6>
                           <a href="/release-notes/23.11/index.html"
                              class="dropdown-item">23.11</a>
@@ -140,9 +140,9 @@
                   </div>
                   <div class="row">
                     <div class="col">
-                      <button type="button" class="btn btn-outline-info dropdown-toggle w-100 mb-3" data-toggle="dropdown" aria-expanded="false">
+                      <button type="button" class="btn btn-outline-info dropdown-toggle w-100 mb-3" data-bs-toggle="dropdown" aria-expanded="false">
                         Join Our Email Lists
-                        <div class="dropdown-menu dropdown-menu-right">
+                        <div class="dropdown-menu dropdown-menu-end">
                           <a href="https://lists.cam.ac.uk/sympa/info/cl-cheribsd-announce"
                             class="dropdown-item">Sign Up for Email Updates</a>
                           <a href="https://lists.cam.ac.uk/sympa/info/cl-cheribsd-discuss"
@@ -169,7 +169,7 @@
         </div>
       </section>
 
-      <section class="jumbotron text-center rounded-0 m-0 bg-light">
+      <section class="py-4 text-center">
         <div class="container">
           <h1>Features</h1>
           <div class="row lead">
@@ -268,7 +268,7 @@
     </main>
 
     <footer>
-      <div class="bg-dark text-white-50 small py-4 jumbotron rounded-0 m-0">
+      <div class="bg-dark text-white-50 smaller py-4">
         <div class="container">
           <p>
             CheriBSD/Morello is a Digital Security by Design (DSbD) technology. This work was supported in part by the UK Industrial Strategy Challenge Fund (ICSCF) and Innovate UK project Digital Security by Design (DSbD) Technology Platform Prototype, 105694.
@@ -281,6 +281,7 @@
     </footer>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script>window.jQuery || document.write('<script src="/assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="/assets/dist/js/bootstrap.bundle.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/assets/js/vendor/jquery.slim.min.js"><\/script>')</script>
+    <script src="/assets/dist/js/bootstrap.bundle.min.js?1714502473"></script>
   </body>
 </html>
