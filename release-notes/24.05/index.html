@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>CheriBSD 23.11 Release Notes</title>
+    <title>CheriBSD 24.05 Release Notes</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/assets/dist/css/bootstrap.min.css?1714502473" rel="stylesheet">
@@ -53,25 +53,33 @@
     <main class="flex-grow-1">
       <section class="container py-3">
         <div class="bg-light border rounded-3 p-4">
-          <h1>CheriBSD 23.11 Release Notes</h1>
+          <h1>CheriBSD 24.05 Release Notes</h1>
           <h2>Overview</h2>
           <p>
-          Welcome to the Fall 2023 (23.11) release of the CheriBSD operating system.  As well as a general update of the baseline FreeBSD OS (roughly corresponding to FreeBSD 14.0-RELEASE) from which CheriBSD is derived, we have introduced several new research components which will be of interest to the CHERI and CheriBSD community:
+          Welcome to the Spring 2024 (24.05) release of the CheriBSD operating system.  As well as a general update of the baseline FreeBSD OS (corresponding to CURRENT as of January 2024) from which CheriBSD is derived, we have introduced several new research components which will be of interest to the CHERI and CheriBSD community:
           </p>
           <ul>
             <li>
-              Support for user level heap temporal memory safety has now been merged and enabled by default. User level allocations via malloc() are now quarantined on free() until all outstanding pointers to the allocation have been revoked, preventing exploitation of use-after-reallocation vulnerabilities. As with all the new features, readers should see the Getting Started Guide for configuration and usage information. The implementation extends the techniques in our paper <em>Cornucopia: Temporal Safety for CHERI Heaps</em> and will be documented in the forthcoming paper <em>Cornucopia Reloaded: Load Barriers for CHERI Heap Temporal Safety</em>.
+            Library Compartmentalization (<a href="https://man.cheribsd.org/cgi-bin/man.cgi/release-24.05/c18n">https://man.cheribsd.org/cgi-bin/man.cgi/release-24.05/c18n</a>) is increasingly mature.  Virtually all software can now run compartmentalized.  It can be enabled system wide by setting the <code>security.cheri.lib_based_c18n_default</code> sysctl to <code>1</code>.  In addition to stronger compatibility, a new <code>procstat</code> command <code>c18n</code> provides additional monitoring.  While this implementation is now capable of running the full desktop environment discussed below, it is neither complete nor intended to be secure.
             </li>
             <li>
-              A port of FreeBSD’s bhyve hypervisor to AArch64 and Morello makes it possible to virtualize CheriBSD, FreeBSD, and Linux for AArch64. The port includes early support for a GDB stub and we aim to provide a more streamlined management framework via the package updates system in the near future</li>
+            To strengthen library compartmentalization, we have completed an adjustment to the ABI for functions whose arguments do not fit in registers.  These arguments are now reachable via a bounded capability passed in register C9 and newly compiled callees access them via C9 allowing callers to place argument values anywhere they desire.  This is compatible with code compiled for 23.11, which used a transitional ABI which set C9 in the caller while the callee continued to access variables directly on the stack.  Code compiled for releases prior to 23.11 is no longer supported.
+            </li>
             <li>
-              An updated research prototype of Library Compartmentalization (<a href="https://man.cheribsd.org/cgi-bin/man.cgi/release-23.11/c18n">https://man.cheribsd.org/cgi-bin/man.cgi/release-23.11/c18n</a>), which implements an alternative run-time linker running shared objects in libraries. This implementation is very much a work-in-progress, and is provided to enable research at other collaborator institutions needing easy access to the prototype. It is neither complete nor intended to be secure</li>
+            We have swiched the default kernel configuration to <code>GENERIC-MORELLO-PURECAP</code>, a pure-capability kernel.  This means that the entire base OS stack is running with spatial memory safety.  Performance of the pure-capability kernel is less well studied than the hybrid kernel so care should be taken when reporting results.
+            </li>
             <li>
-              The number of pure-capability (CheriABI) packages has passed ten-thousand</li>
+            User level heap temporal safety performance has been improved by adding in-kernel worker threads.  This change allows userspace threads to invoke the kernel revoker, proceed with work, and then come back later to complete revocation.
+            </li>
             <li>
-              A new pure-capability benchmark ABI has been added alongside the existing hybrid and pure-capability (CheriABI) ABIs. This ABI uses a modified form of code generation which improves performance on the Arm Morello board, required due to limitations with bounds prediction in the current Morello prototype. The performance of the benchmark ABI is more predictive of potential future CHERI microarchitectural performance than the Morello prototype running software compiled for CheriABI, making it preferable for benchmarking. However, this comes at the cost of reduced security, and so software compiled for the benchmark ABI should not be used for security evaluation. For details on how to use the benchmark ABI, and benchmark Morello in general, readers should see the Getting Started Guide</li>
+            Our CHERI-aware port of the bhyve hypervisor has been synced with AArch64 support merged to upstream FreeBSD.  The GDB stub has been enhanced to support reading capabilities in guest memory.
+            </li>
             <li>
-              To strengthen library compartmentalization, we are adjusting the ABI for functions whose arguments do not fit in registers in a two step process. These arguments are now reachable via a bounded capability passed in register C9, but are stored on the stack in the same place as before, allowing existing callees to find them. New callees ignore C9 and access these arguments directly. In the next release, newly compiled callees will access them via C9 allowing callers to place argument values anywhere they desire. Users can continue to use code compiled for prior ABI versions for the life of the 23.11 release, but should endeavor to recompile all code to the new ABI prior to the next CheriBSD release, expected in 2024, when libraries will expect arguments via C9</li>
+            Kernels now support the pure-capability benchmark ABI in addition to the existing hybrid and pure-capability ABIs. This ABI uses a modified form of code generation which improves performance on the Arm Morello board, required due to limitations with bounds prediction in the current Morello prototype. The performance of the benchmark ABI is more predictive of potential future CHERI microarchitectural performance than the Morello prototype running software compiled for CheriABI, making it preferable for benchmarking. However, this comes at the cost of reduced security, and so software compiled for the benchmark ABI should not be used for security evaluation. For details on how to use the benchmark ABI, and benchmark Morello in general, readers should see the Getting Started Guide.
+            </li>
+            <li>
+            The <code>MAP_CHERI_NOSETBOUNDS</code> flag to the mmap system call is now deprecated and a no-op.  When mmap is called with the <code>MAP_FIXED</code> flag and a pointer to an existing reservation, the passed pointer will be returned unmodified on success.
+            </li>
           </ul>
           <p>
           While CheriBSD is, by definition, an experimental research operating system, with the exception of the benchmark ABI, the above features are not yet considered to be mature.
@@ -83,21 +91,7 @@
           <ul>
             <li>
               <p>
-              The version of OpenSSH shipped with CheriBSD 23.11 lacks mitigations for the <a href="https://terrapin-attack.com">Terrapin Attack</a>.  This can be mitigated by running the following commands as root:
-              </p>
-<pre>
-<code>printf "\n#Work around CVE-2023-48795\nCiphers -chacha20-poly1305@openssh.com\nMACs -*etm@openssh.com\n" >> /etc/ssh/sshd_config</code>
-<code>printf "\n#Work around CVE-2023-48795\nCiphers -chacha20-poly1305@openssh.com\nMACs -*etm@openssh.com\n" >> /etc/ssh/ssh_config</code>
-<code>service sshd restart</code>
-</pre>
-              <p>
-              The FreeBSD security advisory for this issue is
-              <a href="https://www.freebsd.org/security/advisories/FreeBSD-SA-23:19.openssh.asc">FreeBSD-SA-23:19.openssh.asc</a>.
-              </p>
-            </li>
-            <li>
-              <p>
-              ZFS support is lightly tested. The on-disk format is believed to be stable, but it is not impossible that future releases will be unable to read pools created by this release, particularly pools created on pure-capability kernels.
+              ZFS support is lightly tested. The on-disk format is believed to be stable, but it is possible that future releases will be unable to read pools created by this release, particularly pools created on pure-capability kernels.
               </p>
             </li>
           </ul>
