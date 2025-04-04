@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>CheriBSD 24.05 Release Notes</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/assets/dist/css/bootstrap.min.css?1714502473" rel="stylesheet">
+
+    <!-- Bootstrap Icons CSS -->
+    <link href="/assets/dist/css/bootstrap-icons.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="/assets/dist/css/custom.css?1714502473" rel="stylesheet">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="msapplication-TileColor" content="#b91d47">
+  </head>
+
+  <body class="min-vh-100 d-flex flex-column">
+    <header>
+      <div class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
+        <div class="container">
+          <a href="/" class="navbar-brand d-flex align-items-center">
+            <img src="/CHERI.svg" width="30" height="30" class="me-1" alt="">
+            <strong>CheriBSD</strong>
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="nav navbar-nav ms-md-auto">
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Contact
+                </a>
+                <div class="dropdown-menu dropdown-menu-end">
+                  <a class="dropdown-item" href="https://www.cl.cam.ac.uk/research/security/ctsrd/cheri/cheri-slack.html"><i class="bi bi-slack me-2"></i>Talk to Us on Slack</a>
+                  <a class="dropdown-item" href="https://lists.cam.ac.uk/sympa/info/cl-cheribsd-announce"><i class="bi bi-megaphone me-2"></i>Sign Up for Email Updates</a>
+                  <a class="dropdown-item" href="https://lists.cam.ac.uk/sympa/info/cl-cheribsd-discuss"><i class="bi bi-chat-right-text me-2"></i>Join Our Email Discussion List</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="flex-grow-1">
+      <section class="container py-3">
+        <div class="bg-light border rounded-3 p-4">
+          <h1>CheriBSD 24.05 Release Notes</h1>
+          <h2>Overview</h2>
+          <p>
+          Welcome to the Spring 2024 (24.05) release of the CheriBSD operating system.  As well as a general update of the baseline FreeBSD OS (corresponding to CURRENT as of January 2024) from which CheriBSD is derived, we have introduced several new research components which will be of interest to the CHERI and CheriBSD community:
+          </p>
+          <ul>
+            <li>
+            Library Compartmentalization (<a href="https://man.cheribsd.org/cgi-bin/man.cgi/release-24.05/c18n">https://man.cheribsd.org/cgi-bin/man.cgi/release-24.05/c18n</a>) is increasingly mature.  Virtually all software can now run compartmentalized.  It can be enabled system wide by setting the <code>security.cheri.lib_based_c18n_default</code> sysctl to <code>1</code>.  In addition to stronger compatibility, a new <code>procstat</code> command <code>c18n</code> provides additional monitoring.  While this implementation is now capable of running the full desktop environment discussed below, it is neither complete nor intended to be secure.
+            </li>
+            <li>
+            To strengthen library compartmentalization, we have completed an adjustment to the ABI for functions whose arguments do not fit in registers.  These arguments are now reachable via a bounded capability passed in register C9 and newly compiled callees access them via C9 allowing callers to place argument values anywhere they desire.  This is compatible with code compiled for 23.11, which used a transitional ABI which set C9 in the caller while the callee continued to access variables directly on the stack.  Code compiled for releases prior to 23.11 is no longer supported.
+            </li>
+            <li>
+            We have swiched the default kernel configuration to <code>GENERIC-MORELLO-PURECAP</code>, a pure-capability kernel.  This means that the entire base OS stack is running with spatial memory safety.  Performance of the pure-capability kernel is less well studied than the hybrid kernel so care should be taken when reporting results.
+            </li>
+            <li>
+            User level heap temporal safety performance has been improved by adding in-kernel worker threads.  This change allows userspace threads to invoke the kernel revoker, proceed with work, and then come back later to complete revocation.
+            </li>
+            <li>
+            Our CHERI-aware port of the bhyve hypervisor has been synced with AArch64 support merged to upstream FreeBSD.  The GDB stub has been enhanced to support reading capabilities in guest memory.
+            </li>
+            <li>
+            Kernels now support the pure-capability benchmark ABI in addition to the existing hybrid and pure-capability ABIs. This ABI uses a modified form of code generation which improves performance on the Arm Morello board, required due to limitations with bounds prediction in the current Morello prototype. The performance of the benchmark ABI is more predictive of potential future CHERI microarchitectural performance than the Morello prototype running software compiled for CheriABI, making it preferable for benchmarking. However, this comes at the cost of reduced security, and so software compiled for the benchmark ABI should not be used for security evaluation. For details on how to use the benchmark ABI, and benchmark Morello in general, readers should see the Getting Started Guide.
+            </li>
+            <li>
+            The <code>MAP_CHERI_NOSETBOUNDS</code> flag to the mmap system call is now deprecated and a no-op.  When mmap is called with the <code>MAP_FIXED</code> flag and a pointer to an existing reservation, the passed pointer will be returned unmodified on success.
+            </li>
+          </ul>
+          <p>
+          While CheriBSD is, by definition, an experimental research operating system, with the exception of the benchmark ABI, the above features are not yet considered to be mature.
+          </p>
+          <p>
+          As with previous releases, the default CheriBSD kernel on Morello ships with debugging features enabled, which should be disabled by booting a non-debug kernel before any performance benchmarking is performed.
+          </p>
+          <h2>Known Issues</h2>
+          <ul>
+            <li>
+              <p>
+              ZFS support is lightly tested. The on-disk format is believed to be stable, but it is possible that future releases will be unable to read pools created by this release, particularly pools created on pure-capability kernels.
+              </p>
+            </li>
+          </ul>
+          <h2>Using Morello as a Desktop</h2>
+          <p>
+          New installations of the latest CheriBSD release have an option to enable the desktop packages during the install process.
+          </p>
+          <p>
+          If you have already installed the latest version of CheriBSD but did not install the desktop packages you can add them later; log in as root or use sudo to add the following packages to the system:
+          </p>
+<pre>
+<code>pkg64c install cheri-desktop</code> <b>(provides DRM, Wayland and the general GUI system)</b>
+<code>pkg64 install cheri-desktop-hybrid-extras</code> <b>(provides Firefox and other applications)</b>
+</pre>
+          <p>
+          Make sure that your user ID is in the video group; if not, use:
+          </p>
+<pre>
+<code>pw groupmod video -m username</code>
+</pre>
+          <p>
+          Add the following lines to /boot/loader.conf:
+          </p>
+<pre>
+<code>dtb_load="YES"</code>
+<code>dtb_type="dtb"</code>
+<code>dtb_name="/boot/dtb/arm/morello-soc.dtb"</code>
+</pre>
+          <p>
+          Ensure that a USB keyboard and mouse, as well as an HDMI monitor capable of handling full-HD input (all modern monitors), are connected to the desktop.
+          </p>
+          <p>
+          Reboot your system and you will be presented with a graphical login screen.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="bg-dark text-white-50 smaller py-4">
+        <div class="container">
+          <p>
+            CheriBSD/Morello is a Digital Security by Design (DSbD) technology. This work was supported in part by the UK Industrial Strategy Challenge Fund (ICSCF) and Innovate UK project Digital Security by Design (DSbD) Technology Platform Prototype, 105694.
+          </p>
+          <p class="mb-0">
+            Approved for public release; distribution is unlimited.  Supported  by the Defense Advanced Research Projects Agency (DARPA) and the Air Force Research Laboratory (AFRL), under contract FA8750-10-C-0237 ("CTSRD"), with additional support from FA8750-11-C-0249 ("MRC2"), HR0011-18-C-0016 ("ECATS"), FA8650-18-C-7809 ("CIFV"), and FA8750-24-C-B047 ("DEC") as part of the DARPA CRASH, MRC, SSITH, and CPM research programs.  The views, opinions, and/or findings contained in this report are those of the authors and should not be interpreted as representing the official views or policies, either expressed or implied, of the Department of Defense or the U.S. Government.  Additional support was received from St John's College Cambridge, the Google SOAAP Focused Research Award, a Google Chrome University Research Program Award, the RCUK's Horizon Digital Economy Research Hub Grant (EP/G065802/1), the EPSRC REMS Programme Grant (EP/K008528/1), the EPSRC Impact Acceleration Account (EP/K503757/1), the EPSRC IOSEC grant (EP/EP/R012458/1), the ERC Advanced Grant ELVER (789108), the Isaac Newton Trust, the UK Higher Education Innovation Fund (HEIF), Thales E-Security, Microsoft Research Cambridge, Arm Limited, Google DeepMind, HP Enterprise, and a Gates Cambridge Scholarship.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="/assets/js/vendor/jquery.slim.min.js"><\/script>')</script>
+    <script src="/assets/dist/js/bootstrap.bundle.min.js?1714502473"></script>
+  </body>
+</html>
