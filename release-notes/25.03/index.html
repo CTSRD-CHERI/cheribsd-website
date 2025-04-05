@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>CheriBSD 24.05 Release Notes</title>
+    <title>CheriBSD 25.03 Release Notes</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/assets/dist/css/bootstrap.min.css?1714502473" rel="stylesheet">
@@ -53,39 +53,36 @@
     <main class="flex-grow-1">
       <section class="container py-3">
         <div class="bg-light border rounded-3 p-4">
-          <h1>CheriBSD 24.05 Release Notes</h1>
+          <h1>CheriBSD 25.03 Release Notes</h1>
           <h2>Overview</h2>
           <p>
-          Welcome to the Spring 2024 (24.05) release of the CheriBSD operating system.  As well as a general update of the baseline FreeBSD OS (corresponding to CURRENT as of January 2024) from which CheriBSD is derived, we have introduced several new research components which will be of interest to the CHERI and CheriBSD community:
+          Welcome to the Spring 2025 (25.03) release of the CheriBSD operating system.  As well as a general update of the baseline FreeBSD OS (corresponding to CURRENT as of October 2024) from which CheriBSD is derived, we have introduced several new research components which will be of interest to the CHERI and CheriBSD community:
           </p>
           <ul>
             <li>
-            Library Compartmentalization (<a href="https://man.cheribsd.org/cgi-bin/man.cgi/release-24.05/c18n">https://man.cheribsd.org/cgi-bin/man.cgi/release-24.05/c18n</a>) is increasingly mature.  Virtually all software can now run compartmentalized.  It can be enabled system wide by setting the <code>security.cheri.lib_based_c18n_default</code> sysctl to <code>1</code>.  In addition to stronger compatibility, a new <code>procstat</code> command <code>c18n</code> provides additional monitoring.  While this implementation is now capable of running the full desktop environment discussed below, it is neither complete nor intended to be secure.
+            Library Compartmentalization (<a href="https://man.cheribsd.org/cgi-bin/man.cgi/release-25.03/c18n">https://man.cheribsd.org/cgi-bin/man.cgi/release-25.03/c18n</a>) has matured further and we are generally able to run with it enabled system wide.  It can be enabled system wide by setting the <code>security.cheri.lib_based_c18n_default</code> sysctl to <code>1</code>.  A new <code>procstat</code> command <code>compartments</code> allows instantiated compartments to be displayed.  While this implementation is now capable of running the full desktop, it is neither complete nor intended to be secure.
             </li>
             <li>
-            To strengthen library compartmentalization, we have completed an adjustment to the ABI for functions whose arguments do not fit in registers.  These arguments are now reachable via a bounded capability passed in register C9 and newly compiled callees access them via C9 allowing callers to place argument values anywhere they desire.  This is compatible with code compiled for 23.11, which used a transitional ABI which set C9 in the caller while the callee continued to access variables directly on the stack.  Code compiled for releases prior to 23.11 is no longer supported.
+	    Sub-library Compartmentalization has been added.  When compiled with teh <code>llvm-morello-c18n</code> compiler package and the <code>WITH_COMPARTMENTALIZTION_POLICY</code> make option set, libc will be compiled with a series of compartments.  Of particular interest, malloc and the malloc revocation wrapper (mrs) are placed in their own compartments, protecting their powerful capabilities to the entire heap from the rest of libc.  Future releases will expand the use of such engineered compartments.
             </li>
             <li>
-            We have swiched the default kernel configuration to <code>GENERIC-MORELLO-PURECAP</code>, a pure-capability kernel.  This means that the entire base OS stack is running with spatial memory safety.  Performance of the pure-capability kernel is less well studied than the hybrid kernel so care should be taken when reporting results.
+	    To strengthen library compartmentalization, we have altered the function pointer ABI, introducing new relocations to allow function pointers to be wrapped by trampolines.  This wrapping is currently disabled by default to ease source upgrades. It can be enabled system wide by setting the <code>security.cheri.lib_based_c18n_wrap_fptr</code> sysctl to <code>1</code>.  It will be enabled by default in the next release.
             </li>
+	    <li>
+	    When library compartmentalization is enabled, system calls can only be invoked from a new libsys shared library separate from libc. This greatly limits the ability of arbitrary code to make system calls
+	    </li>
             <li>
-            User level heap temporal safety performance has been improved by adding in-kernel worker threads.  This change allows userspace threads to invoke the kernel revoker, proceed with work, and then come back later to complete revocation.
+            User level heap temporal safety has seen a number of performance enhancements and stability improvements.
             </li>
-            <li>
-            Our CHERI-aware port of the bhyve hypervisor has been synced with AArch64 support merged to upstream FreeBSD.  The GDB stub has been enhanced to support reading capabilities in guest memory.
+	    <li>
+	    The 9pfs filesystem is now supported over VirtIO.
             </li>
-            <li>
-            Kernels now support the pure-capability benchmark ABI in addition to the existing hybrid and pure-capability ABIs. This ABI uses a modified form of code generation which improves performance on the Arm Morello board, required due to limitations with bounds prediction in the current Morello prototype. The performance of the benchmark ABI is more predictive of potential future CHERI microarchitectural performance than the Morello prototype running software compiled for CheriABI, making it preferable for benchmarking. However, this comes at the cost of reduced security, and so software compiled for the benchmark ABI should not be used for security evaluation. For details on how to use the benchmark ABI, and benchmark Morello in general, readers should see the Getting Started Guide.
-            </li>
-            <li>
-            The <code>MAP_CHERI_NOSETBOUNDS</code> flag to the mmap system call is now deprecated and a no-op.  When mmap is called with the <code>MAP_FIXED</code> flag and a pointer to an existing reservation, the passed pointer will be returned unmodified on success.
-            </li>
+	    <li>
+	    We have improved and lightly tested the driver for the TP-Link Archer T2U Nano USB WiFi adapter (WiFi only, not the similar T2UB WiFi+Bluetooth model, nor any similarly named products).
+	    </li>
           </ul>
           <p>
-          While CheriBSD is, by definition, an experimental research operating system, with the exception of the benchmark ABI, the above features are not yet considered to be mature.
-          </p>
-          <p>
-          As with previous releases, the default CheriBSD kernel on Morello ships with debugging features enabled, which should be disabled by booting a non-debug kernel before any performance benchmarking is performed.
+	  As with previous releases, the default CheriBSD kernel on Morello ships with debugging features enabled, which should be disabled by booting a non-debug kernel before any performance benchmarking is performed.  Additionally, before publishing benchmark results on Morello, we strongly encourage reading the report <a href="https://ctsrd-cheri.github.io/morello-early-performance-results/">Early performance results from the prototype Morello microarchitecture</a>.
           </p>
           <h2>Known Issues</h2>
           <ul>
@@ -93,6 +90,11 @@
               <p>
               ZFS support is lightly tested. The on-disk format is believed to be stable, but it is possible that future releases will be unable to read pools created by this release, particularly pools created on pure-capability kernels.
               </p>
+            </li>
+	    <li>
+              <p>
+	      Some virtual memory subsystem races leading to panics are present in the release version that were not resolved at release time.  They are more likely to trigger under high load and with library-based compartmentalization enabled globally.
+	      </p>
             </li>
           </ul>
           <h2>Using Morello as a Desktop</h2>
