@@ -63,26 +63,26 @@
             Library Compartmentalization (<a href="https://man.cheribsd.org/cgi-bin/man.cgi/release-25.03/c18n">https://man.cheribsd.org/cgi-bin/man.cgi/release-25.03/c18n</a>) has matured further and we are generally able to run with it enabled system wide.  It can be enabled system wide by setting the <code>security.cheri.lib_based_c18n_default</code> sysctl to <code>1</code>.  A new <code>procstat</code> command <code>compartments</code> allows instantiated compartments to be displayed.  While this implementation is now capable of running the full desktop, it is neither complete nor intended to be secure.
             </li>
             <li>
-	    Sub-library Compartmentalization has been added.  When compiled with the <code>llvm-morello-c18n</code> compiler package and the <code>WITH_COMPARTMENTALIZTION_POLICY</code> make option set, libc will be compiled with a series of compartments.  Of particular interest, malloc and the malloc revocation wrapper (mrs) are placed in their own compartments, protecting their powerful capabilities to the entire heap from the rest of libc.  Future releases will expand the use of such engineered compartments.
+            Sub-library Compartmentalization has been added.  When compiled with the <code>llvm-morello-c18n</code> compiler package and the <code>WITH_COMPARTMENTALIZTION_POLICY</code> make option set, libc will be compiled with a series of compartments.  Of particular interest, malloc and the malloc revocation wrapper (mrs) are placed in their own compartments, protecting their powerful capabilities to the entire heap from the rest of libc.  Future releases will expand the use of such engineered compartments.
             </li>
             <li>
-	    To strengthen library compartmentalization, we have altered the function pointer ABI, introducing new relocations to allow function pointers to be wrapped by trampolines.  This wrapping is currently disabled by default to ease source upgrades. It can be enabled system wide by setting the <code>security.cheri.lib_based_c18n_wrap_fptr</code> sysctl to <code>1</code>.  It will be enabled by default in the next release.
+            To strengthen library compartmentalization, we have altered the function pointer ABI, introducing new relocations to allow function pointers to be wrapped by trampolines.  This wrapping is currently disabled by default to ease source upgrades. It can be enabled system wide by setting the <code>security.cheri.lib_based_c18n_wrap_fptr</code> sysctl to <code>1</code>.  It will be enabled by default in the next release.
             </li>
-	    <li>
-	    When library compartmentalization is enabled, system calls can only be invoked from a new libsys shared library separate from libc. This greatly limits the ability of arbitrary code to make system calls
-	    </li>
+            <li>
+            When library compartmentalization is enabled, system calls can only be invoked from a new libsys shared library separate from libc. This greatly limits the ability of arbitrary code to make system calls
+            </li>
             <li>
             User level heap temporal safety has seen a number of performance enhancements and stability improvements.
             </li>
-	    <li>
-	    The 9pfs filesystem is now supported over VirtIO.
+            <li>
+            The 9pfs filesystem is now supported over VirtIO.
             </li>
-	    <li>
-	    We have improved and lightly tested the driver for the TP-Link Archer T2U Nano USB WiFi adapter (WiFi only, not the similar T2UB WiFi+Bluetooth model, nor any similarly named products).
-	    </li>
+            <li>
+            We have improved and lightly tested the driver for the TP-Link Archer T2U Nano USB WiFi adapter (WiFi only, not the similar T2UB WiFi+Bluetooth model, nor any similarly named products).
+            </li>
           </ul>
           <p>
-	  As with previous releases, the default CheriBSD kernel on Morello ships with debugging features enabled, which should be disabled by booting a non-debug kernel before any performance benchmarking is performed.  Additionally, before publishing benchmark results on Morello, we strongly encourage reading the report <a href="https://ctsrd-cheri.github.io/morello-early-performance-results/">Early performance results from the prototype Morello microarchitecture</a>.
+          As with previous releases, the default CheriBSD kernel on Morello ships with debugging features enabled, which should be disabled by booting a non-debug kernel before any performance benchmarking is performed.  Additionally, before publishing benchmark results on Morello, we strongly encourage reading the report <a href="https://ctsrd-cheri.github.io/morello-early-performance-results/">Early performance results from the prototype Morello microarchitecture</a>.
           </p>
           <h2>Known Issues</h2>
           <ul>
@@ -91,10 +91,10 @@
               ZFS support is lightly tested. The on-disk format is believed to be stable, but it is possible that future releases will be unable to read pools created by this release, particularly pools created on pure-capability kernels.
               </p>
             </li>
-	    <li>
+            <li>
               <p>
-	      Some virtual memory subsystem races leading to panics are present in the release version that were not resolved at release time.  They are more likely to trigger under high load and with library-based compartmentalization enabled globally.
-	      </p>
+              Some virtual memory subsystem races leading to panics are present in the release version that were not resolved at release time.  They are more likely to trigger under high load and with library-based compartmentalization enabled globally.
+              </p>
             </li>
           </ul>
           <h2>Using Morello as a Desktop</h2>
