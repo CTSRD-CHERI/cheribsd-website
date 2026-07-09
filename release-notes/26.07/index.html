@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>CheriBSD 26.07 Release Notes</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/assets/dist/css/bootstrap.min.css?1714502473" rel="stylesheet">
+
+    <!-- Bootstrap Icons CSS -->
+    <link href="/assets/dist/css/bootstrap-icons.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="/assets/dist/css/custom.css?1714502473" rel="stylesheet">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="msapplication-TileColor" content="#b91d47">
+  </head>
+
+  <body class="min-vh-100 d-flex flex-column">
+    <header>
+      <div class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
+        <div class="container">
+          <a href="/" class="navbar-brand d-flex align-items-center">
+            <img src="/CHERI.svg" width="30" height="30" class="me-1" alt="">
+            <strong>CheriBSD</strong>
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="nav navbar-nav ms-md-auto">
+              <li class="nav-item me-md-2">
+                <a class="nav-link text-light" href="https://github.com/CTSRD-CHERI/cheribsd"><i class="bi bi-github me-2"></i>GitHub</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Contact
+                </a>
+                <div class="dropdown-menu dropdown-menu-end">
+                  <a class="dropdown-item" href="https://www.cl.cam.ac.uk/research/security/ctsrd/cheri/cheri-slack.html"><i class="bi bi-slack me-2"></i>Talk to Us on Slack</a>
+                  <a class="dropdown-item" href="https://lists.cam.ac.uk/sympa/info/cl-cheribsd-announce"><i class="bi bi-megaphone me-2"></i>Sign Up for Email Updates</a>
+                  <a class="dropdown-item" href="https://lists.cam.ac.uk/sympa/info/cl-cheribsd-discuss"><i class="bi bi-chat-right-text me-2"></i>Join Our Email Discussion List</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="flex-grow-1">
+      <section class="container py-3">
+        <div class="bg-light border rounded-3 p-4">
+          <h1>CheriBSD 26.07 Release Notes</h1>
+          <h2>Overview</h2>
+          <p>
+          Welcome to the Summer 2026 (26.07) release of the CheriBSD operating system.  As well as a general update of the baseline FreeBSD OS (corresponding to CURRENT as of May 2025) from which CheriBSD is derived, we have introduced several new research components which will be of interest to the CHERI and CheriBSD community:
+          </p>
+          <ul>
+            <li>
+            A new cheribsd-update (<a href="https://man.cheribsd.org/cgi-bin/man.cgi/release-26.07/cheribsd-update.8">https://man.cheribsd.org/cgi-bin/man.cgi/release-26.07/cheribsd-update.8</a>) tool is available to update from the previous release, 25.03, without reinstallation. Details for how to use this can be found in the <a href="https://ctsrd-cheri.github.io/cheribsd-getting-started/updating/index.html">"Updating an existing system" section of the Getting Started with CheriBSD guide</a>.
+            </li>
+            <li>
+            DTrace (<a href="https://man.cheribsd.org/cgi-bin/man.cgi/release-26.07/dtrace.1">https://man.cheribsd.org/cgi-bin/man.cgi/release-26.07/dtrace.1</a>) has been ported and can be used to trace a live CheriBSD kernel.
+            </li>
+            <li>
+            Library Compartmentalization (<a href="https://man.cheribsd.org/cgi-bin/man.cgi/release-26.07/c18n.7">https://man.cheribsd.org/cgi-bin/man.cgi/release-26.07/c18n.7</a>) has matured further and exports new APIs to allow stack scanning by garbage collectors like in V8. While this implementation is capable of running diverse workloads such as a full CHERI desktop environment, it is neither complete nor intended to be secure.
+            </li>
+            <li>
+            bhyve (<a href="https://man.cheribsd.org/cgi-bin/man.cgi/release-26.07/bhyve.8">https://man.cheribsd.org/cgi-bin/man.cgi/release-26.07/bhyve.8</a>) VMs can now make outbound network connections when using the slirp backend, removing the need for a tap interface in many cases.
+            </li>
+            <li>
+            PF (<a href="https://man.cheribsd.org/cgi-bin/man.cgi/release-26.07/pf.4">https://man.cheribsd.org/cgi-bin/man.cgi/release-26.07/pf.4</a>) has been ported and can be used as a packet filter for CheriBSD systems.
+            </li>
+            <li>
+            To strengthen library compartmentalization, the optional function pointer wrapping introduced in the previous release, 25.03, is now always enabled for compartmentalised processes.
+            </li>
+            <li>
+            To strengthen memory safety for thread-local storage, and to permit its compartmentalisation in a future release, a new ABI has been enabled by default. To maintain compatibility with the previous release, 25.03, Morello is using a <em>transitional</em> ABI, but the next release will remove this compatibility.
+            </li>
+            <li>
+            We have updated the toolchain, run-time linker, and C start-up code to further reduce the bounds of the executable capabilities.
+            </li>
+            <li>
+            OpenSSL's optimised assembly routines have been ported to pure-capability Morello.
+            </li>
+            <li>
+            Most historic <code>cheri/cheric.h</code> capability query and manipulation APIs have been removed in favour of the corresponding OS-independent <code>cheriintrin.h</code> APIs. The few that remain have been renamed to adhere to the same naming convention.
+            </li>
+            <li>
+            The historic <code>vaddr_t</code> type is no longer defined in favour of its long-standing replacement <code>ptraddr_t</code>. <code>ptraddr_t</code> itself is also now no longer defined in <code>stdint.h</code>, only <code>stddef.h</code>.
+            </li>
+            <li>
+            With some caveats detailed below, ZFS is no longer regarded as experimental, and is now the default filesystem in the installer instead of UFS, aligning with upstream FreeBSD's defaults.
+            </li>
+          </ul>
+          <p>
+          As with previous releases, the default CheriBSD kernel on Morello ships with debugging features enabled, which should be disabled by booting a non-debug kernel before any performance benchmarking is performed.  Additionally, before publishing benchmark results on Morello, we strongly encourage reading the report <a href="https://ctsrd-cheri.github.io/morello-early-performance-results/">Early performance results from the prototype Morello microarchitecture</a>.
+          </p>
+          <h2>Known Issues</h2>
+          <ul>
+            <li>
+              <p>
+              More advanced ZFS features not enabled in the installer's default configuration, such as non-LZ4 compression, deduplication, and non-disk (referred to as "stripe" in bsdinstall) vdevs (e.g. mirroring or RAIDZ) are untested and should be regarded as experimental.
+              </p>
+            </li>
+            <li>
+              <p>
+              DTrace requires a pure-capability kernel, and its kinst provider is not supported.
+              </p>
+            </li>
+          </ul>
+          <h2>Using Morello as a Desktop</h2>
+          <p>
+          New installations of the latest CheriBSD release have an option to enable the desktop packages during the install process.
+          </p>
+          <p>
+          If you have already installed the latest version of CheriBSD but did not install the desktop packages you can add them later; log in as root or use sudo to add the following packages to the system:
+          </p>
+<pre>
+<code>pkg64c install cheri-desktop</code> <b>(provides DRM, Wayland and the general GUI system)</b>
+<code>pkg64 install cheri-desktop-hybrid-extras</code> <b>(provides Chromium and other applications)</b>
+</pre>
+          <p>
+          Make sure that your user ID is in the video group; if not, use:
+          </p>
+<pre>
+<code>pw groupmod video -m username</code>
+</pre>
+          <p>
+          Add the following lines to /boot/loader.conf:
+          </p>
+<pre>
+<code>dtb_load="YES"</code>
+<code>dtb_type="dtb"</code>
+<code>dtb_name="/boot/dtb/arm/morello-soc.dtb"</code>
+</pre>
+          <p>
+          Ensure that a USB keyboard and mouse, as well as an HDMI monitor capable of handling full-HD input (all modern monitors), are connected to the desktop.
+          </p>
+          <p>
+          Reboot your system and you will be presented with a graphical login screen.
+          </p>
+          <p class="mb-0 text-end small fw-light fst-italic">
+          24th July 2026
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="bg-dark text-white-50 smaller py-4">
+        <div class="container">
+          <p>
+            CheriBSD/Morello is a Digital Security by Design (DSbD) technology. This work was supported in part by the UK Industrial Strategy Challenge Fund (ICSCF) and Innovate UK project Digital Security by Design (DSbD) Technology Platform Prototype, 105694.
+          </p>
+          <p class="mb-0">
+            Approved for public release; distribution is unlimited.  Supported  by the Defense Advanced Research Projects Agency (DARPA) and the Air Force Research Laboratory (AFRL), under contract FA8750-10-C-0237 ("CTSRD"), with additional support from FA8750-11-C-0249 ("MRC2"), HR0011-18-C-0016 ("ECATS"), FA8650-18-C-7809 ("CIFV"), and FA8750-24-C-B047 ("DEC") as part of the DARPA CRASH, MRC, SSITH, and CPM research programs.  The views, opinions, and/or findings contained in this report are those of the authors and should not be interpreted as representing the official views or policies, either expressed or implied, of the Department of Defense or the U.S. Government.  Additional support was received from St John's College Cambridge, the Google SOAAP Focused Research Award, a Google Chrome University Research Program Award, the RCUK's Horizon Digital Economy Research Hub Grant (EP/G065802/1), the EPSRC REMS Programme Grant (EP/K008528/1), the EPSRC Impact Acceleration Account (EP/K503757/1), the EPSRC IOSEC grant (EP/EP/R012458/1), the ERC Advanced Grant ELVER (789108), the Isaac Newton Trust, the UK Higher Education Innovation Fund (HEIF), Thales E-Security, Microsoft Research Cambridge, Arm Limited, Google DeepMind, HP Enterprise, and a Gates Cambridge Scholarship.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="/assets/js/vendor/jquery.slim.min.js"><\/script>')</script>
+    <script src="/assets/dist/js/bootstrap.bundle.min.js?1714502473"></script>
+  </body>
+</html>
