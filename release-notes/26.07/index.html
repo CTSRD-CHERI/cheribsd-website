@@ -114,6 +114,11 @@
               DTrace requires a pure-capability kernel, and its kinst provider is not supported.
               </p>
             </li>
+            <li>
+              <p>
+              This release includes an upstream FreeBSD change to IPFW (<a href="https://man.cheribsd.org/cgi-bin/man.cgi/release-26.07/ipfw.4">https://man.cheribsd.org/cgi-bin/man.cgi/release-26.07/ipfw.4</a>) which breaks backwards compatibility. This means a 25.03 userspace will not be able to configure IPFW for a 26.07 kernel, and so if you are upgrading a system using IPFW it may deny all network packets after rebooting when prompted by cheribsd-update. For such systems, ensure you have serial or video console access in order to finish the update and restart the IPFW service, or disable IPFW for the duration of the update if you only have network access.
+              </p>
+            </li>
           </ul>
           <h2>Using Morello as a Desktop</h2>
           <p>
